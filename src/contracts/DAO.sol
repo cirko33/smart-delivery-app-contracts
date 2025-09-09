@@ -77,7 +77,6 @@ contract DAO is IReferenda {
 
         Referenda storage referenda = referendas[referendaId];
 
-        require(block.number >= referenda.validUntil, "Voting is not finished");
         require(block.number >= referenda.validUntil, VotingNotFinished(block.number, referenda.validUntil));
 
         if (referenda.backing.yay > referenda.backing.nay) {
