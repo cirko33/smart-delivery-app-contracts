@@ -52,6 +52,8 @@ contract DAO is IReferenda {
         proposals[id] = Proposal(_title, _description);
         referendas[id].validUntil = block.number + defaultValidUntil;
 
+        emit ProposalCreated(id);
+
         return id;
     }
 
@@ -70,6 +72,8 @@ contract DAO is IReferenda {
         } else {
             referenda.backing.nay++;
         }
+
+        emit VoteSubmitted(referendaId, msg.sender, isFor);
     }
 
     function resolve(uint256 referendaId) external {
@@ -85,5 +89,7 @@ contract DAO is IReferenda {
             referenda.resolution = Resolution.REJECTED;
         }
         //todo clear proposer's state
+
+        emit ProposalResolved(referendaId, referenda.resolution == Resolution.ACCEPTED);
     }
 }
